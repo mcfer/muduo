@@ -37,6 +37,7 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
     client_.setMessageCallback(
         std::bind(&Tunnel::onClientMessage, shared_from_this(), _1, _2, _3));
     serverConn_->setHighWaterMarkCallback(
+<<<<<<< HEAD
 <<<<<<< .merge_file_fYWEFx
         std::bind(&Tunnel::onHighWaterMarkWeak,
                   std::weak_ptr<Tunnel>(shared_from_this()), kServer, _1, _2),
@@ -44,6 +45,10 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
         boost::bind(&Tunnel::onHighWaterMarkWeak,
                     boost::weak_ptr<Tunnel>(shared_from_this()), kServer, _1, _2),
 >>>>>>> .merge_file_uL2Zla
+=======
+        boost::bind(&Tunnel::onHighWaterMarkWeak,
+                    boost::weak_ptr<Tunnel>(shared_from_this()), kServer, _1, _2),
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
         1024*1024);
   }
 
@@ -81,6 +86,7 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
     {
       conn->setTcpNoDelay(true);
       conn->setHighWaterMarkCallback(
+<<<<<<< HEAD
 <<<<<<< .merge_file_fYWEFx
           std::bind(&Tunnel::onHighWaterMarkWeak,
                     std::weak_ptr<Tunnel>(shared_from_this()), kClient, _1, _2),
@@ -88,6 +94,10 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
           boost::bind(&Tunnel::onHighWaterMarkWeak,
                       boost::weak_ptr<Tunnel>(shared_from_this()), kClient, _1, _2),
 >>>>>>> .merge_file_uL2Zla
+=======
+          boost::bind(&Tunnel::onHighWaterMarkWeak,
+                      boost::weak_ptr<Tunnel>(shared_from_this()), kClient, _1, _2),
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
           1024*1024);
       serverConn_->setContext(conn);
       serverConn_->startRead();
@@ -128,11 +138,14 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
                        const muduo::net::TcpConnectionPtr& conn,
                        size_t bytesToSent)
   {
+<<<<<<< HEAD
 <<<<<<< .merge_file_fYWEFx
     using std::placeholders::_1;
 
 =======
 >>>>>>> .merge_file_uL2Zla
+=======
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
     LOG_INFO << (which == kServer ? "server" : "client")
              << " onHighWaterMark " << conn->name()
              << " bytes " << bytesToSent;
@@ -143,6 +156,7 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
       {
         clientConn_->stopRead();
         serverConn_->setWriteCompleteCallback(
+<<<<<<< HEAD
 <<<<<<< .merge_file_fYWEFx
             std::bind(&Tunnel::onWriteCompleteWeak,
                       std::weak_ptr<Tunnel>(shared_from_this()), kServer, _1));
@@ -150,6 +164,10 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
             boost::bind(&Tunnel::onWriteCompleteWeak,
                         boost::weak_ptr<Tunnel>(shared_from_this()), kServer, _1));
 >>>>>>> .merge_file_uL2Zla
+=======
+            boost::bind(&Tunnel::onWriteCompleteWeak,
+                        boost::weak_ptr<Tunnel>(shared_from_this()), kServer, _1));
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
       }
     }
     else
@@ -158,6 +176,7 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
       {
         serverConn_->stopRead();
         clientConn_->setWriteCompleteCallback(
+<<<<<<< HEAD
 <<<<<<< .merge_file_fYWEFx
             std::bind(&Tunnel::onWriteCompleteWeak,
                       std::weak_ptr<Tunnel>(shared_from_this()), kClient, _1));
@@ -167,6 +186,8 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
 
   static void onHighWaterMarkWeak(const std::weak_ptr<Tunnel>& wkTunnel,
 =======
+=======
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
             boost::bind(&Tunnel::onWriteCompleteWeak,
                         boost::weak_ptr<Tunnel>(shared_from_this()), kClient, _1));
       }
@@ -174,7 +195,10 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
   }
 
   static void onHighWaterMarkWeak(const boost::weak_ptr<Tunnel>& wkTunnel,
+<<<<<<< HEAD
 >>>>>>> .merge_file_uL2Zla
+=======
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
                                   ServerClient which,
                                   const muduo::net::TcpConnectionPtr& conn,
                                   size_t bytesToSent)
@@ -238,7 +262,37 @@ class Tunnel : public std::enable_shared_from_this<Tunnel>,
     boost::shared_ptr<Tunnel> tunnel = wkTunnel.lock();
     if (tunnel)
     {
+<<<<<<< HEAD
 >>>>>>> .merge_file_uL2Zla
+=======
+      tunnel->onHighWaterMark(which, conn, bytesToSent);
+    }
+  }
+
+  void onWriteComplete(ServerClient which, const muduo::net::TcpConnectionPtr& conn)
+  {
+    LOG_INFO << (which == kServer ? "server" : "client")
+             << " onWriteComplete " << conn->name();
+    if (which == kServer)
+    {
+      clientConn_->startRead();
+      serverConn_->setWriteCompleteCallback(muduo::net::WriteCompleteCallback());
+    }
+    else
+    {
+      serverConn_->startRead();
+      clientConn_->setWriteCompleteCallback(muduo::net::WriteCompleteCallback());
+    }
+  }
+
+  static void onWriteCompleteWeak(const boost::weak_ptr<Tunnel>& wkTunnel,
+                                  ServerClient which,
+                                  const muduo::net::TcpConnectionPtr& conn)
+  {
+    boost::shared_ptr<Tunnel> tunnel = wkTunnel.lock();
+    if (tunnel)
+    {
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
       tunnel->onWriteComplete(which, conn);
     }
   }

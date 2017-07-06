@@ -22,15 +22,21 @@ namespace detail
 template<typename T>
 struct has_no_destroy
 {
+<<<<<<< HEAD
 <<<<<<< .merge_file_y8GGVu
   template <typename C> static char test(decltype(&C::no_destroy));
 =======
+=======
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
 #ifdef __GXX_EXPERIMENTAL_CXX0X__
   template <typename C> static char test(decltype(&C::no_destroy));
 #else
   template <typename C> static char test(typeof(&C::no_destroy));
 #endif
+<<<<<<< HEAD
 >>>>>>> .merge_file_BwVfhp
+=======
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
   template <typename C> static int32_t test(...);
   const static bool value = sizeof(test<T>(0)) == 1;
 };

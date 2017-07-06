@@ -1,9 +1,13 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
+<<<<<<< HEAD
 <<<<<<< .merge_file_mdKclb
 index 81bd126..38c7387 100644
 =======
 index fcb8103..06fa58f 100644
 >>>>>>> .merge_file_j6pZts
+=======
+index fcb8103..06fa58f 100644
+>>>>>>> 0ff45d4c1f52bb96341bf9e72d00c07bcc41cb99
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -18,7 +18,9 @@ set(CXX_FLAGS
